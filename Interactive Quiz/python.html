@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Waiting Room | MindMaze</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0d2d2f;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .waiting-box {
+      background-color: #122c2d;
+      border-radius: 20px;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .logo-text {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #fcd581;
+    }
+
+    .logo-text span {
+      color: #86ffb2;
+    }
+
+    .pin-label {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #ccc;
+    }
+
+    .pin-code {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #b9f871;
+      background-color: #091a1a;
+      display: inline-block;
+      padding: 10px 30px;
+      border-radius: 1rem;
+      margin: 10px 0;
+    }
+
+    .pin-actions {
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    .waiting-text {
+      font-size: 1.5rem;
+      color: #fff3cd;
+      margin-top: 40px;
+    }
+
+    .sub-text {
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    .start-btn {
+      margin-top: 40px;
+      background-color: #b9f871;
+      color: black;
+      font-weight: bold;
+      border: none;
+      padding: 12px 40px;
+      font-size: 1.1rem;
+      border-radius: 2rem;
+      box-shadow: 2px 4px #000;
+    }
+
+    .start-btn:hover {
+      background-color: #a0e85c;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="waiting-box">
+    <!-- Logo -->
+    <div class="logo-text">Join at: <span>MindMaze.com</span></div>
+
+    <!-- PIN -->
+    <div class="pin-label">PIN code:</div>
+    <div class="pin-code">007 400</div>
+    
+
+
+    <!-- Start Button -->
+    <form action="py-qs.html" method="get">
+      <button type="submit" class="start-btn">Start game</button>
+    </form>
+  </div>
+
+</body>
+</html>
