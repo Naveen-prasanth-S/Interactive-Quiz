@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Quizzes - MindMaze</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #3b0a32;
+      color: white;
+    }
+    .section-title {
+      color: #ffc107;
+      font-weight: bold;
+      text-align: center;
+    }
+    .card {
+      background: linear-gradient(135deg, #521748, #3b0a32);
+      color: white;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+    }
+    .profile-pic {
+      height: 40px;
+      width: 40px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+    footer {
+      background-color: #26021b;
+      color: white;
+      padding: 20px 0;
+    }
+    footer a {
+      color: #ffc107;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    .badge {
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.9; }
+    }
+    .filter-btn {
+      border-radius: 20px;
+    }
+    #noResults {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-dark bg-success fixed-top">
+    <div class="container-fluid">
+      <div class="d-flex align-items-center">
+        <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand d-flex align-items-center" href="#">
+          <img src="img.png" alt="Logo" style="height: 40px;" class="me-2">
+        </a>
+      </div>
+      <img id="profileImg" src="profile.jpg" alt="Profile" class="profile-pic">
+    </div>
+
+    <div class="offcanvas offcanvas-start text-bg-success" id="offcanvasNavbar">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Menu</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link text-white" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="browse.html">Browse Quizzes</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="join.html">Join Quiz</a></li>
+          <li class="nav-item"><a class="nav-link text-white active" href="myquizzes.html">My Quizzes</a></li>
+        </ul>
+        <div class="mt-3">
+          <a class="btn btn-danger w-100" href="index.html"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div style="margin-top: 100px;"></div>
+  <div class="container">
+    <h2 class="section-title display-6 mb-4">My Recent Quizzes</h2>
+    <div class="row g-4" id="quizContainer"></div>
+    <div class="text-center mt-4" id="noResults">
+      <p class="text-light">You haven’t completed any quiz yet. Attempt one from <a href="browse.html" class="text-warning text-decoration-none fw-bold">Browse</a> page.</p>
+    </div>
+  </div>
+
+  <footer class="text-center mt-5 py-4 bg-dark bg-opacity-50 rounded-top">
+    <div class="container">
+      <p class="mb-1">&copy; 2025 <strong>MindMaze</strong>. All rights reserved.</p>
+      <p class="small">
+        <a href="#">About</a> |
+        <a href="#">Contact</a> |
+        <a href="#">Privacy Policy</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const profileImg = document.getElementById("profileImg");
+    const storedImage = localStorage.getItem("mindmaze_profile_image");
+    if (storedImage) profileImg.src = storedImage;
+
+    const quizContainer = document.getElementById("quizContainer");
+    const noResults = document.getElementById("noResults");
+
+    const quizHistory = JSON.parse(localStorage.getItem("mindmaze_quiz_history")) || [];
+
+    function renderQuizzes() {
+      if (quizHistory.length === 0) {
+        noResults.style.display = "block";
+        return;
+      }
+
+      quizHistory.forEach(q => {
+        const progress = Math.min(q.score * 10, 100);
+        const completedBadge = q.score !== undefined && q.score !== null
+          ? `<span class="badge bg-success"><i class="bi bi-check-circle-fill me-1"></i>Completed</span>`
+          : "";
+
+        const card = document.createElement("div");
+        card.className = "col-md-6";
+        card.innerHTML = `
+          <div class="card p-4">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">${q.title}</h5>
+                ${completedBadge}
+              </div>
+              <p class="card-text mt-2">Score: <span class="text-warning">10/10</span></p>
+              <p class="text-light small mb-1">Date: ${q.date || "N/A"}</p>
+              <div class="progress mb-3">
+                <div class="progress-bar bg-success" style="width: 100%"></div>
+              </div>
+              <a href="${q.link || '#'}" class="btn btn-outline-light w-100 rounded-pill">Retake Quiz</a>
+            </div>
+          </div>
+        `;
+        quizContainer.appendChild(card);
+      });
+    }
+
+    renderQuizzes();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register | MindMaze</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #3b0a32, #1c0717);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    form {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 20px;
+      width: 500px;
+      position: relative;
+    }
+
+    .form-floating input,
+    .form-floating select {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: rgb(229, 222, 222);
+    }
+
+    .form-floating label {
+      color: #000000;
+    }
+
+    .form-control:focus {
+      border-color: #fbff00;
+      box-shadow: 0 0 10px #ffc10766;
+      background-color: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+
+    .form-select option {
+      background-color: #3b0a32;
+      color: white;
+    }
+
+    .btn-success {
+      border-radius: 30px;
+      font-weight: bold;
+    }
+
+    #togglePassword {
+      position: absolute;
+      right: 20px;
+      top: 52%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      z-index: 2;
+      color: #ccc;
+    }
+
+    #profilePreview {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #ffc107;
+      margin: 10px auto 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<form id="registerForm" enctype="multipart/form-data">
+  <h3 class="text-center text-warning mb-4">Create Your Account</h3>
+
+  <img id="profilePreview" alt="Preview" />
+
+  <div class="form-floating mb-3">
+    <input type="text" class="form-control" id="username" placeholder="Enter your name" name="username" required>
+    <label for="username">Username</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email" required>
+    <label for="email">E-mail</label>
+  </div>
+
+  <div class="form-floating mb-3 position-relative">
+    <input type="password" class="form-control" id="password" placeholder="Enter your password" name="password" required>
+    <label for="password">Password</label>
+    <i class="bi bi-eye-slash" id="togglePassword"></i>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input type="text" class="form-control" id="phone" placeholder="Phone number" name="phone" required>
+    <label for="phone">Phone Number</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input type="date" class="form-control" id="dob" name="dob" required>
+    <label for="dob">Date of Birth</label>
+  </div>
+
+  <div class="mb-4">
+    <label for="profile" class="form-label text-light">Upload Profile Picture</label>
+    <input class="form-control" type="file" id="profile" name="profile" accept="image/*" required>
+  </div>
+
+  <button class="btn btn-success w-100 py-2" type="submit">
+    <i class="bi bi-check-circle me-2"></i>Register
+  </button>
+
+  <div class="text-center mt-3">
+    <span>Already have an account? </span>
+    <a href="login.html" class="text-warning fw-bold text-decoration-none">Sign in here</a>
+  </div>
+
+  <div class="text-center mt-4">
+    <p class="text-secondary mb-2">Or register with</p>
+    <div class="d-flex justify-content-center gap-4 fs-4">
+      <a href="#" class="text-light"><i class="bi bi-google"></i></a>
+      <a href="#" class="text-light"><i class="bi bi-linkedin"></i></a>
+      <a href="#" class="text-light"><i class="bi bi-facebook"></i></a>
+    </div>
+  </div>
+</form>
+
+<script>
+  const togglePassword = document.getElementById("togglePassword");
+  const passwordInput = document.getElementById("password");
+
+  togglePassword.addEventListener("click", () => {
+    const type = passwordInput.type === "password" ? "text" : "password";
+    passwordInput.type = type;
+    togglePassword.classList.toggle("bi-eye");
+    togglePassword.classList.toggle("bi-eye-slash");
+  });
+
+  const profileInput = document.getElementById("profile");
+  const preview = document.getElementById("profilePreview");
+
+  profileInput.addEventListener("change", function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        preview.setAttribute("src", e.target.result);
+        preview.style.display = "block";
+        localStorage.setItem("mindmaze_profile_image", e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  const form = document.getElementById("registerForm");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    window.location.href = "login.html";
+  });
+</script>
+
+</body>
+</html>
